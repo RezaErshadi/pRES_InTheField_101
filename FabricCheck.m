@@ -16,14 +16,18 @@ restoredefaultpath
 addpath(genpath('fmcw'));
 addpath(genpath('func'));
 %% Check these values ************************ IMPORTANT
-maxRange = 1001;
+maxRange = 1301;
 whichATT = 1;
 whichBURST = 1;
-SF = [-1 -1 1 1]; % a minus factor to correct the antenna orientation on [RR RU UR UU]
+SF = [1 1 -1 -1]; % a minus factor to correct the antenna orientation on [RR RU UR UU]
 % use [1 1 1 1] for the mono test file
 % use [-1 -1 1 1] for the mimo test file
 %%
-[fn, fd] = uigetfile({'*.dat';'*.DAT'}, 'Select a file','MultiSelect','on');
+fn = '40_SubZero__195754.40_T1HT2VR1HR2V.dat';
+% fn = '10_SubZero__193608.20_T1HT2VR1HR2V.dat';
+
+fd = '/Users/reza/pCloud/IceTub/Devices/ApRES/projects/Antarctica_ReMeltRadar2122/data/radar/Rover/Along_A_26_25_24_23_22/';
+% [fn, fd] = uigetfile({'*.dat';'*.DAT'}, 'Select a file','MultiSelect','on');
 fp = fullfile(fd,fn);
 if ischar(fp)
     FileType = "MIMO";
@@ -259,19 +263,23 @@ title(ax{ii},'\Delta\lambda')
 set(ax{ii},'FontSize',fntsz)
 
 function [sRR,sRU,sUR,sUU,z,zBED] = cut2bed(sRR,sRU,sUR,sUU,z)
-    dz = mean(diff(z));
-    [zBED(1),ibed(1)] = FUNC_FindBed_RE(sRR,z);
-    [zBED(2),ibed(2)] = FUNC_FindBed_RE(sRU,z);
-    [zBED(3),ibed(3)] = FUNC_FindBed_RE(sUR,z);
-    [zBED(4),ibed(4)] = FUNC_FindBed_RE(sUU,z);
-    iBed = round(mean(ibed),0);
-
-    ExtraDepth = iBed + round((25/dz),0);
+%     dz = mean(diff(z));
+%     [zBED(1),ibed(1)] = FUNC_FindBed_RE(sRR,z);
+%     [zBED(2),ibed(2)] = FUNC_FindBed_RE(sRU,z);
+%     [zBED(3),ibed(3)] = FUNC_FindBed_RE(sUR,z);
+%     [zBED(4),ibed(4)] = FUNC_FindBed_RE(sUU,z);
+%     iBed = round(mean(ibed),0);
+%     ExtraDepth = iBed + round((25/dz),0);
+%     if ExtraDepth > length(z)
+%         ExtraDepth = length(z);
+%     end
+    ExtraDepth = length(z);
     sRR = sRR(1:ExtraDepth);
     sRU = sRU(1:ExtraDepth);
     sUR = sUR(1:ExtraDepth);
     sUU = sUU(1:ExtraDepth);
     z = z(1:ExtraDepth);
+    zBED = max(z);
 end
 
 

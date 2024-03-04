@@ -10,7 +10,7 @@
 % University of Tübingen - Geophysics group
 %%
 clear
-close all
+% close all
 clc
 restoredefaultpath
 addpath(genpath('fmcw'));
@@ -19,7 +19,7 @@ addpath(genpath('func'));
 [fn, fd] = uigetfile({'*.dat';'*.DAT'}, 'Select a file');
 fp = fullfile(fd,fn);
 %%
-maxRange = 601;
+maxRange = 2501;
 whichATT = 1;
 whichBURST = 1;
 DAT = FUNC_ReadMonsterFileTS(fp,maxRange,whichATT,whichBURST);
@@ -131,4 +131,7 @@ function [] = data_plt(t,v,pwr,phs,z,zBed,Tx,Rx)
         'FontName','Helvetica Neue',...
         'FitBoxToText','off',...
         'EdgeColor','none');
+
+    print(f1,"Priestley_2022_DC_UR.png",'-dpng','-r300');
+
 end
